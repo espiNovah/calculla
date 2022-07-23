@@ -31,6 +31,7 @@ body {
     width: 400px;
     border-radius: 15px;
     background-color: black;
+    box-shadow: 2px 4px 16px #000000;
 }
 
 div .displayScreen {
@@ -56,19 +57,30 @@ div .displayScreen {
     box-sizing: border-box;
     text-align: center;
     flex-direction: column;
-    flex: 1px;
 }
 
 .resetPanel {
     display: flex;
-    align-items: center;
-    background-color: #061214;
+    border-radius: 0px 10px 10px 0px;
+    margin: 0px 3px 3px 0px;
     color: #DAEDEC;
-    display: flex;
-    height: 70px;
+    height: 90px;
 }
 .resetP {
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.resetClear {
+    background-color: #061214;
+    border-radius: 0px 10px 10px 0px;
+    margin-right: 4px;
+
+}
+.resetDelete {
+    background-color: #061214;
+    border-radius: 10px 10px 10px 10px;
 }
 
 .numBtn {
@@ -78,7 +90,6 @@ div .displayScreen {
 }
 
 .btnNorth {
-    flex: 5px;
     display: flex;
 }
 .northAlpha {
@@ -88,19 +99,18 @@ div .displayScreen {
 
 }
 .northOmega {
-    width: 100px;
-    background-color: #244C44;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-
 .btnSouth {
-    flex: 1px;
     display: flex;
 }
 
 .southAlpha {
     display: flex;
-    flex: 2px;
+    flex: 2;
 }
 
 .singleBtn {
@@ -116,20 +126,27 @@ div .displayScreen {
     color: #DAEDEC;
     background-color: #061214;
 }
-.operator {
+.operaBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90px;
+    width: 90px;
+    border-radius: 10px 0px 0px 10px;
+    margin-bottom: 3px;
+    font-size: 30px;
+    color: #DAEDEC;
     background-color: #244C44;
 }
 
 .equal {
-    background-color: #279F95;
     margin: 0px;
     border-radius: 20px 0px 15px 0px
 
 }
 .southOmega {
     background-color: #279F95;  
-    height: auto;  
-    flex: 2px;
+    height: auto; 
 }
 
 footer {
