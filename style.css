@@ -89,6 +89,19 @@ div .displayScreen {
     flex-wrap: wrap;
 }
 
+.resetP:hover{
+    background-color: #DAEDEC;
+    color: black;
+}
+.singleBtn:hover{
+    background-color: #DAEDEC;
+    color: black;
+}
+.operaBtn:hover{
+    background-color: #DAEDEC;
+    color: black;;
+}
+
 .btnNorth {
     display: flex;
 }
