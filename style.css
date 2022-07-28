@@ -90,14 +90,17 @@ div .displayScreen {
 }
 
 .resetP:hover{
+    cursor: pointer; 
     background-color: #DAEDEC;
     color: black;
 }
 .singleBtn:hover{
+    cursor: pointer; 
     background-color: #DAEDEC;
     color: black;
 }
 .operaBtn:hover{
+    cursor: pointer; 
     background-color: #DAEDEC;
     color: black;;
 }
