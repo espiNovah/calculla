@@ -1,5 +1,10 @@
 const displayBoard = document.querySelector('.displayBoard');
+const displayLog = document.querySelector('.displayLog');
 const sNum = document.querySelectorAll('.sNum');
+const clearBtn = document.querySelector('.resetClear');
+
+let calcStore = '';
+let calcLog = '';
 
 function add(a, b) {
     return a + b;
@@ -35,13 +40,25 @@ function operate(operator, n1, n2) {
     }
 }
 
-function addToDisplay(e) {
-    console.log(`${e.target.textContent} Added to Display`);
+function clearScreen() {
+    displayBoard.textContent = '0';
+    displayLog.textContent = '0';
+    calcStore = '';
+    calcLog = '';
 }
 
-const finder = operate('-', 12, 4);
+function addToScreen(e) {
+    calcStore += e.target.textContent;
+    displayBoard.textContent = calcStore;
+    console.log(calcStore);
+}
+
+// const finder = operate('-', 12, 4);
+// console.log(finder);
 
 
 const sNumb = Array.from(sNum).forEach(btn => {
-    btn.addEventListener('click', addToDisplay);
+    btn.addEventListener('click', addToScreen);
 });
+
+clearBtn.addEventListener('click', clearScreen);
