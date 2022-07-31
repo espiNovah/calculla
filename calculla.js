@@ -1,13 +1,20 @@
 const displayBoard = document.querySelector('.displayBoard');
 const displayLog = document.querySelector('.displayLog');
 const sNum = document.querySelectorAll('.sNum');
+const optBtn = document.querySelectorAll('.operaBtn');
 const clearBtn = document.querySelector('.resetClear');
+const equalBtn = document.querySelector('.equal');
+
 
 let calcStore = '';
 let calcLog = '';
+let operatorVal = null;
+let firstOperand = '';
+// let isSecondOperand = false;
+let secondOperand = '';
 
 function add(a, b) {
-    return a + b;
+    return a * 1 + b * 1;
 }
 
 function subtract(a, b) {
@@ -45,20 +52,50 @@ function clearScreen() {
     displayLog.textContent = '0';
     calcStore = '';
     calcLog = '';
+    operatorVal = null;
+    firstOperand = '';
+    secondOperand = '';
 }
 
 function addToScreen(e) {
-    calcStore += e.target.textContent;
+    const eVal = this.textContent;
+    if (operatorVal === '+' || operatorVal === '-' || operatorVal === '*' || operatorVal === '/') {
+        calcStore = displayBoard.textContent;
+        displayBoard.textContent = '';
+        displayBoard.textContent += eVal;
+        secondOperand += displayBoard.textContent;
+
+        // isSecondOperand = true;      
+        // if(isSecondOperand == true) {
+        //     calcStore = eVal;
+        // }
+        // console.log(`${secondOperand} second operand recoded`);
+
+    } else {
+        calcStore += eVal;
+    }
     displayBoard.textContent = calcStore;
-    console.log(calcStore);
+    console.log(`${eVal} was recoded`);
 }
 
-// const finder = operate('-', 12, 4);
-// console.log(finder);
+function calculate() {
+
+}
+
+function addOperator(e) {
+    operatorVal = e.target.textContent;
+    const dVal = document.querySelector('.displayBoard');
+    firstOperand = dVal.textContent;
+    console.log(`${operatorVal} and ${firstOperand} was stored`);
+}
 
 
-const sNumb = Array.from(sNum).forEach(btn => {
+equalBtn.addEventListener('click', calculate);
+clearBtn.addEventListener('click', clearScreen);
+sNum.forEach(btn => {
     btn.addEventListener('click', addToScreen);
 });
 
-clearBtn.addEventListener('click', clearScreen);
+optBtn.forEach(btn => {
+    btn.addEventListener('click', addOperator)
+});
