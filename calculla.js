@@ -79,7 +79,8 @@ function addToScreen(e) {
 }
 
 function calculate() {
-
+    const answerVal = operate(operatorVal, firstOperand, secondOperand);
+    displayBoard.textContent = answerVal;
 }
 
 function addOperator(e) {
@@ -95,7 +96,6 @@ clearBtn.addEventListener('click', clearScreen);
 sNum.forEach(btn => {
     btn.addEventListener('click', addToScreen);
 });
-
 optBtn.forEach(btn => {
     btn.addEventListener('click', addOperator)
 });
