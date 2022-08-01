@@ -10,24 +10,14 @@ let calcStore = '';
 let calcLog = '';
 let operatorVal = null;
 let firstOperand = '';
-// let isSecondOperand = false;
+let isOperatorActive = false;
 let secondOperand = '';
 
-function add(a, b) {
-    return a * 1 + b * 1;
-}
 
-function subtract(a, b) {
-    return a - b;
-}
-
-function multiply(a, b) {
-    return a * b;
-}
-
-function divide(a, b) {
-    return a / b;
-}
+const add = (a, b) => (a*1 + b*1);
+const subtract = (a, b) => (a - b);
+const multiply = (a, b) => (a * b);
+const divide = (a, b) => (a / b);
 
 function operate(operator, n1, n2) {
     switch (operator) {
@@ -52,42 +42,40 @@ function clearScreen() {
     displayLog.textContent = '0';
     calcStore = '';
     calcLog = '';
-    operatorVal = null;
     firstOperand = '';
     secondOperand = '';
+    isOperatorActive = false;
+    operatorVal = null;
 }
 
 function addToScreen(e) {
     const eVal = this.textContent;
-    if (operatorVal === '+' || operatorVal === '-' || operatorVal === '*' || operatorVal === '/') {
-        calcStore = displayBoard.textContent;
-        displayBoard.textContent = '';
-        displayBoard.textContent += eVal;
-        secondOperand += displayBoard.textContent;
-
-        // isSecondOperand = true;      
-        // if(isSecondOperand == true) {
-        //     calcStore = eVal;
-        // }
-        // console.log(`${secondOperand} second operand recoded`);
-
+    if (isOperatorActive) {
+        secondOperand += eVal; 
+        calcStore = secondOperand
+        // console.log(`${calcStore} is the second operand`);
     } else {
-        calcStore += eVal;
+        firstOperand += eVal;
+        calcStore = firstOperand;
+        // console.log(`${calcStore} is the first operand`);
     }
     displayBoard.textContent = calcStore;
-    console.log(`${eVal} was recoded`);
 }
 
 function calculate() {
     const answerVal = operate(operatorVal, firstOperand, secondOperand);
     displayBoard.textContent = answerVal;
+    // console.log(answerVal);
+    firstOperand = displayBoard.textContent;
+    secondOperand = '';
+    isOperatorActive = false;
 }
 
 function addOperator(e) {
+    isOperatorActive = true;
     operatorVal = e.target.textContent;
-    const dVal = document.querySelector('.displayBoard');
-    firstOperand = dVal.textContent;
-    console.log(`${operatorVal} and ${firstOperand} was stored`);
+    firstOperand = displayBoard.textContent;
+    // console.log(`firstOperand: ${firstOperand}, operator: ${operatorVal}`);
 }
 
 
