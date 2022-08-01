@@ -3,6 +3,7 @@ const displayLog = document.querySelector('.displayLog');
 const sNum = document.querySelectorAll('.sNum');
 const optBtn = document.querySelectorAll('.operaBtn');
 const clearBtn = document.querySelector('.resetClear');
+const deleteBtn = document.querySelector('.resetDelete');
 const equalBtn = document.querySelector('.equal');
 
 
@@ -14,7 +15,7 @@ let isOperatorActive = false;
 let secondOperand = '';
 
 
-const add = (a, b) => (a*1 + b*1);
+const add = (a, b) => (a * 1 + b * 1);
 const subtract = (a, b) => (a - b);
 const multiply = (a, b) => (a * b);
 const divide = (a, b) => (a / b);
@@ -51,7 +52,7 @@ function clearScreen() {
 function addToScreen(e) {
     const eVal = this.textContent;
     if (isOperatorActive) {
-        secondOperand += eVal; 
+        secondOperand += eVal;
         calcStore = secondOperand
         // console.log(`${calcStore} is the second operand`);
     } else {
@@ -78,9 +79,26 @@ function addOperator(e) {
     // console.log(`firstOperand: ${firstOperand}, operator: ${operatorVal}`);
 }
 
+function deleteLast() {
+    const dLast = displayBoard.textContent;
+    if (dLast.length < 2) {
+        clearScreen();
+        calcStore = '0';
+    } else {
+        if (isOperatorActive) {
+            secondOperand = secondOperand.slice(0, -1)
+        } else {
+            firstOperand = firstOperand.slice(0, -1);
+        }
+        calcStore = dLast.slice(0, -1);
+    }
+    displayBoard.textContent = calcStore;
+}
+
 
 equalBtn.addEventListener('click', calculate);
 clearBtn.addEventListener('click', clearScreen);
+deleteBtn.addEventListener('click', deleteLast);
 sNum.forEach(btn => {
     btn.addEventListener('click', addToScreen);
 });
