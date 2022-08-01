@@ -89,20 +89,13 @@ div .displayScreen {
     flex-wrap: wrap;
 }
 
-.resetP:hover{
+.resetP:hover, .singleBtn:hover, .operaBtn:hover{
     cursor: pointer; 
     background-color: #DAEDEC;
     color: black;
 }
-.singleBtn:hover{
-    cursor: pointer; 
-    background-color: #DAEDEC;
-    color: black;
-}
-.operaBtn:hover{
-    cursor: pointer; 
-    background-color: #DAEDEC;
-    color: black;;
+.resetP:active, .singleBtn:active, .operaBtn:active{
+    filter: brightness(1.2);
 }
 
 .btnNorth {
