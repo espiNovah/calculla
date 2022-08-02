@@ -10,9 +10,11 @@ const equalBtn = document.querySelector('.equal');
 let calcStore = '';
 let calcLog = '';
 let operatorVal = null;
+let answerVal = null;
 let firstOperand = '';
 let isOperatorActive = false;
 let secondOperand = '';
+let lastOperatorVal = null;
 
 
 const add = (a, b) => (a * 1 + b * 1);
@@ -47,6 +49,8 @@ function clearScreen() {
     secondOperand = '';
     isOperatorActive = false;
     operatorVal = null;
+    lastOperatorVal = null;
+    answerVal = null;
 }
 
 function addToScreen(e) {
@@ -62,8 +66,8 @@ function addToScreen(e) {
 }
 
 function calculate() {
-    const answerVal = operate(operatorVal, firstOperand, secondOperand);
-    if (answerVal === undefined) {
+    answerVal = operate(operatorVal, firstOperand, secondOperand);
+    if (answerVal === undefined || secondOperand === '') {
         displayBoard.textContent = displayBoard.textContent / 1
     } else {
         displayBoard.textContent = answerVal;
@@ -79,8 +83,16 @@ function calculate() {
 
 function addOperator(e) {
     isOperatorActive = true;
+    if (firstOperand !== '' && secondOperand !== '') {
+        answerVal = operate(lastOperatorVal, firstOperand, secondOperand);
+        displayBoard.textContent = answerVal;
+        firstOperand = answerVal;
+        secondOperand = ''
+    } else {
+        firstOperand = displayBoard.textContent;
+    }
     operatorVal = e.target.textContent;
-    firstOperand = displayBoard.textContent;
+    lastOperatorVal = operatorVal;
 }
 
 function deleteLast() {
