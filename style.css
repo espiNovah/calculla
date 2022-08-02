@@ -161,12 +161,21 @@ div .displayScreen {
 
 .equal {
     margin: 0px;
-    border-radius: 20px 0px 15px 0px
-
+    border-radius: 20px 0px 15px 0px;
 }
 .southOmega {
     background-color: #279F95;  
+    color: #DAEDEC;
     height: auto; 
+}
+.southOmega:hover {
+    background-color: #279F95; 
+    color: #DAEDEC;
+    filter: brightness(1.2);
+}
+.southOmega:active{
+    background-color: #279F95;  
+    filter: brightness(1);
 }
 
 footer {
