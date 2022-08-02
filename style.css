@@ -90,9 +90,19 @@ div .displayScreen {
     flex-wrap: wrap;
 }
 
-.resetP:hover, .singleBtn:hover, .operaBtn:hover{
+.singleBtn:hover, .operaBtn:hover{
     cursor: pointer; 
     background-color: #DAEDEC;
+    color: black;
+}
+.resetDelete:hover{
+    cursor: pointer; 
+    background-color: #ECF87F;
+    color: black;
+}
+.resetClear:hover{
+    cursor: pointer; 
+    background-color: #FFAEBC;
     color: black;
 }
 .resetP:active, .singleBtn:active, .operaBtn:active{
