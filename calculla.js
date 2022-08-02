@@ -65,9 +65,16 @@ function addToScreen(e) {
 
 function calculate() {
     const answerVal = operate(operatorVal, firstOperand, secondOperand);
-    displayBoard.textContent = answerVal;
-    // console.log(answerVal);
-    firstOperand = displayBoard.textContent;
+    if (answerVal === undefined) {
+        displayBoard.textContent = displayBoard.textContent / 1
+    } else {
+        displayBoard.textContent = answerVal;
+    }
+    if (displayBoard.textContent == 0) {
+        firstOperand = ''
+    } else {
+        firstOperand = displayBoard.textContent;
+    }
     secondOperand = '';
     isOperatorActive = false;
 }
