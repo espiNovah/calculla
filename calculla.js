@@ -53,12 +53,10 @@ function addToScreen(e) {
     const eVal = this.textContent;
     if (isOperatorActive) {
         secondOperand += eVal;
-        calcStore = secondOperand
-        // console.log(`${calcStore} is the second operand`);
+        calcStore = +secondOperand
     } else {
         firstOperand += eVal;
-        calcStore = firstOperand;
-        // console.log(`${calcStore} is the first operand`);
+        calcStore = +firstOperand;
     }
     displayBoard.textContent = calcStore;
 }
@@ -83,7 +81,6 @@ function addOperator(e) {
     isOperatorActive = true;
     operatorVal = e.target.textContent;
     firstOperand = displayBoard.textContent;
-    // console.log(`firstOperand: ${firstOperand}, operator: ${operatorVal}`);
 }
 
 function deleteLast() {
