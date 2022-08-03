@@ -15,6 +15,7 @@ let firstOperand = '';
 let isOperatorActive = false;
 let secondOperand = '';
 let lastOperatorVal = null;
+let temp = null;
 
 
 const add = (a, b) => (a * 1 + b * 1);
@@ -51,6 +52,7 @@ function clearScreen() {
     operatorVal = null;
     lastOperatorVal = null;
     answerVal = null;
+    temp = null
 }
 
 function addToScreen(e) {
@@ -62,10 +64,29 @@ function addToScreen(e) {
         firstOperand += eVal;
         calcStore = +firstOperand;
     }
-    displayBoard.textContent = calcStore;
+    if (displayBoard.textContent.length >= 9) {
+        if (isOperatorActive) {
+            temp = firstOperand.toString().slice(0, 9);
+            calcStore = +eVal;
+            firstOperand = displayBoard.textContent.slice(0, 9);
+            if (secondOperand.length >= 9) {
+                firstOperand = temp;
+                calcStore = displayBoard.textContent.slice(0, 9);
+                displayBoard.textContent = calcStore;
+                isOperatorActive = false;
+            }
+            displayBoard.textContent = calcStore.toString().slice(0, 9);
+            secondOperand = displayBoard.textContent;
+        } else {
+            calcStore = displayBoard.textContent.slice(0, 9);
+        }
+    } else {
+        displayBoard.textContent = calcStore.toString().slice(0, 9);
+    }
 }
 
 function calculate() {
+    if (firstOperand.length >= 9) { firstOperand = temp };
     answerVal = operate(operatorVal, firstOperand, secondOperand);
     if (answerVal === undefined || secondOperand === '') {
         displayBoard.textContent = displayBoard.textContent / 1
@@ -84,6 +105,7 @@ function calculate() {
 function addOperator(e) {
     isOperatorActive = true;
     if (firstOperand !== '' && secondOperand !== '') {
+        if (firstOperand.length >= 9) { firstOperand = temp };
         answerVal = operate(lastOperatorVal, firstOperand, secondOperand);
         displayBoard.textContent = answerVal;
         firstOperand = answerVal;
