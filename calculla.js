@@ -88,6 +88,9 @@ function addToScreen(e) {
 function calculate() {
     if (firstOperand.length >= 9) { firstOperand = temp };
     answerVal = roundNumber(operate(operatorVal, firstOperand, secondOperand));
+    if (answerVal.toString().length >= 9) {
+        answerVal = answerVal.toExponential(2);
+    }
     if (answerVal === undefined || secondOperand === '') {
         displayBoard.textContent = displayBoard.textContent / 1
     } else {
