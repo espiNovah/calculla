@@ -72,6 +72,7 @@ div .displayScreen {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: background-color 0.5s ease-out;
 }
 .resetClear {
     background-color: #061214;
@@ -145,6 +146,7 @@ div .displayScreen {
     align-items: center;
     color: #DAEDEC;
     background-color: #061214;
+    transition: background-color 0.5s ease-out;
 }
 .operaBtn {
     display: flex;
@@ -157,6 +159,7 @@ div .displayScreen {
     font-size: 30px;
     color: #DAEDEC;
     background-color: #244C44;
+    transition: background-color 0.5s ease-out;
 }
 
 .equal {
