@@ -75,7 +75,7 @@ function addToScreen(e) {
                 displayBoard.textContent = calcStore;
                 isOperatorActive = false;
             }
-            displayBoard.textContent = calcStore.toString().slice(0, 9);
+            displayBoard.textC// clearScreen();ontent = calcStore.toString().slice(0, 9);
             secondOperand = displayBoard.textContent;
         } else {
             calcStore = displayBoard.textContent.slice(0, 9);
@@ -109,7 +109,7 @@ function addOperator(e) {
         answerVal = operate(lastOperatorVal, firstOperand, secondOperand);
         displayBoard.textContent = answerVal;
         firstOperand = answerVal;
-        secondOperand = ''
+        secondOperand = '';
     } else {
         firstOperand = displayBoard.textContent;
     }
@@ -119,12 +119,17 @@ function addOperator(e) {
 
 function deleteLast() {
     const dLast = displayBoard.textContent;
-    if (dLast.length < 2) {
-        clearScreen();
-        calcStore = '0';
+    if (dLast.length <= 1) {
+        if (isOperatorActive) {
+            secondOperand = '';
+            calcStore = '0';
+        } else {
+            clearScreen();
+            calcStore = '0';
+        }
     } else {
         if (isOperatorActive) {
-            secondOperand = secondOperand.slice(0, -1)
+            secondOperand = secondOperand.slice(0, -1);
         } else {
             firstOperand = firstOperand.slice(0, -1);
         }
