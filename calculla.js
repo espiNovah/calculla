@@ -75,7 +75,7 @@ function addToScreen(e) {
                 displayBoard.textContent = calcStore;
                 isOperatorActive = false;
             }
-            displayBoard.textC// clearScreen();ontent = calcStore.toString().slice(0, 9);
+            displayBoard.textContent = calcStore.toString().slice(0, 9);
             secondOperand = displayBoard.textContent;
         } else {
             calcStore = displayBoard.textContent.slice(0, 9);
@@ -87,7 +87,7 @@ function addToScreen(e) {
 
 function calculate() {
     if (firstOperand.length >= 9) { firstOperand = temp };
-    answerVal = operate(operatorVal, firstOperand, secondOperand);
+    answerVal = roundNumber(operate(operatorVal, firstOperand, secondOperand));
     if (answerVal === undefined || secondOperand === '') {
         displayBoard.textContent = displayBoard.textContent / 1
     } else {
@@ -106,7 +106,7 @@ function addOperator(e) {
     isOperatorActive = true;
     if (firstOperand !== '' && secondOperand !== '') {
         if (firstOperand.length >= 9) { firstOperand = temp };
-        answerVal = operate(lastOperatorVal, firstOperand, secondOperand);
+        answerVal = roundNumber(operate(lastOperatorVal, firstOperand, secondOperand));
         displayBoard.textContent = answerVal;
         firstOperand = answerVal;
         secondOperand = '';
@@ -136,6 +136,10 @@ function deleteLast() {
         calcStore = dLast.slice(0, -1);
     }
     displayBoard.textContent = calcStore;
+}
+
+function roundNumber(num) {
+    return Math.round((num + Number.EPSILON) * 100) / 100;
 }
 
 
