@@ -147,6 +147,10 @@ function selectOperator(e) {
 
 function deleteLast() {
     const dLast = displayBoard.textContent;
+    if (dLast === ERROR_MESSAGE) {
+        clearScreen();
+        return;
+    };
     if (dLast.length <= 1) {
         if (isOperatorActive) {
             secondOperand = '';
