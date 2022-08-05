@@ -16,6 +16,7 @@ let isOperatorActive = false;
 let secondOperand = '';
 let lastOperatorVal = null;
 let temp = null;
+const ERROR_MESSAGE = 'OMG!'
 
 
 const add = (a, b) => (a * 1 + b * 1);
@@ -36,7 +37,6 @@ function operate(operator, n1, n2) {
             break;
         case '/':
             return divide(n1, n2);
-            break;
         // default:
     }
 }
@@ -57,6 +57,11 @@ function clearScreen() {
 
 function addToScreen(e) {
     const eVal = this.textContent;
+    if (displayBoard.textContent === ERROR_MESSAGE) {
+        clearScreen();
+        displayBoard.textContent = '0';
+        return;
+    };
     if (isOperatorActive) {
         secondOperand += eVal;
         calcStore = +secondOperand
@@ -86,6 +91,15 @@ function addToScreen(e) {
 }
 
 function calculate() {
+    if (operatorVal === '/' && displayBoard.textContent === '0') {
+        displayBoard.textContent = ERROR_MESSAGE;
+        firstOperand = '';
+        return;
+    };
+    if (displayBoard.textContent === ERROR_MESSAGE) {
+        clearScreen();
+        return
+    };
     if (firstOperand.length >= 9) { firstOperand = temp };
     answerVal = roundNumber(operate(operatorVal, firstOperand, secondOperand));
     if (answerVal.toString().length >= 9) {
@@ -97,16 +111,27 @@ function calculate() {
         displayBoard.textContent = answerVal;
     }
     if (displayBoard.textContent == 0) {
-        firstOperand = ''
+        firstOperand = '';
     } else {
         firstOperand = displayBoard.textContent;
     }
     secondOperand = '';
     isOperatorActive = false;
+
 }
 
-function addOperator(e) {
+function selectOperator(e) {
     isOperatorActive = true;
+    const ERROR_MESSAGE = 'OMG!'
+    if (operatorVal === '/' && displayBoard.textContent === '0') {
+        displayBoard.textContent = ERROR_MESSAGE;
+        firstOperand = '';
+        return;
+    };
+    if (displayBoard.textContent === ERROR_MESSAGE) {
+        clearScreen();
+        return;
+    };
     if (firstOperand !== '' && secondOperand !== '') {
         if (firstOperand.length >= 9) { firstOperand = temp };
         answerVal = roundNumber(operate(lastOperatorVal, firstOperand, secondOperand));
@@ -153,5 +178,5 @@ sNum.forEach(btn => {
     btn.addEventListener('click', addToScreen);
 });
 optBtn.forEach(btn => {
-    btn.addEventListener('click', addOperator)
+    btn.addEventListener('click', selectOperator)
 });
