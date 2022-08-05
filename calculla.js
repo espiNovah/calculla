@@ -184,7 +184,11 @@ function addPoint(e) {
 }
 
 function appendZero(operand) {
-
+    if (operand == '0') {
+        displayValue = 0 + '';
+        primaryScreen.textContent = displayValue;
+        (operatorSelected) ? secondOperand = displayValue : firstOperand = displayValue;
+    }
 }
 
 function roundNumber(num) {
