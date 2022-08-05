@@ -1,28 +1,29 @@
-const displayBoard = document.querySelector('.displayBoard');
-const displayLog = document.querySelector('.displayLog');
-const sNum = document.querySelectorAll('.sNum');
-const optBtn = document.querySelectorAll('.operaBtn');
+const pointBtn = document.querySelector('.dNum');
+const equalBtn = document.querySelector('.equal');
+const numberBtn = document.querySelectorAll('.sNum');
 const clearBtn = document.querySelector('.resetClear');
 const deleteBtn = document.querySelector('.resetDelete');
-const equalBtn = document.querySelector('.equal');
+const operatorBtn = document.querySelectorAll('.operaBtn');
+const secondaryScreen = document.querySelector('.displayLog');
+const primaryScreen = document.querySelector('.displayBoard');
 
 
-let calcStore = '';
-let calcLog = '';
-let operatorVal = null;
-let answerVal = null;
+let displayLog = '';
+let displayValue = '';
 let firstOperand = '';
-let isOperatorActive = false;
 let secondOperand = '';
-let lastOperatorVal = null;
-let temp = null;
-const ERROR_MESSAGE = 'OMG!'
+let mathOperator = null;
+let operationAnswer = null;
+let lastMathOperator = null;
+let operatorSelected = false;
+let firstOperand_temp = null;
+const ERROR_MESSAGE = '🤡'
 
 
-const add = (a, b) => (a * 1 + b * 1);
+const add = (a, b) => (+a + +b);
+const divide = (a, b) => (a / b);
 const subtract = (a, b) => (a - b);
 const multiply = (a, b) => (a * b);
-const divide = (a, b) => (a / b);
 
 function operate(operator, n1, n2) {
     switch (operator) {
@@ -37,137 +38,153 @@ function operate(operator, n1, n2) {
             break;
         case '/':
             return divide(n1, n2);
-        // default:
     }
 }
 
 function clearScreen() {
-    displayBoard.textContent = '0';
-    displayLog.textContent = '0';
-    calcStore = '';
-    calcLog = '';
+    displayValue = '';
+    displayLog = '';
     firstOperand = '';
     secondOperand = '';
-    isOperatorActive = false;
-    operatorVal = null;
-    lastOperatorVal = null;
-    answerVal = null;
-    temp = null
+    mathOperator = null;
+    operationAnswer = null;
+    lastMathOperator = null;
+    firstOperand_temp = null
+    operatorSelected = false;
+    primaryScreen.textContent = '0';
+    secondaryScreen.textContent = '0';
 }
 
 function addToScreen(e) {
-    const eVal = this.textContent;
-    if (displayBoard.textContent === ERROR_MESSAGE) {
+    const btnValue = this.textContent;
+    if (primaryScreen.textContent === ERROR_MESSAGE) {
         clearScreen();
-        displayBoard.textContent = '0';
+        primaryScreen.textContent = '0';
         return;
-    };
-    if (isOperatorActive) {
-        secondOperand += eVal;
-        calcStore = +secondOperand
-    } else {
-        firstOperand += eVal;
-        calcStore = +firstOperand;
     }
-    if (displayBoard.textContent.length >= 9) {
-        if (isOperatorActive) {
-            temp = firstOperand.toString().slice(0, 9);
-            calcStore = +eVal;
-            firstOperand = displayBoard.textContent.slice(0, 9);
+    if (operatorSelected) {
+        secondOperand += btnValue;
+        displayValue = secondOperand
+    } else {
+        firstOperand += btnValue;
+        displayValue = firstOperand;
+    }
+    if (primaryScreen.textContent.length >= 9) {
+        if (operatorSelected) {
+            firstOperand_temp = firstOperand.toString().slice(0, 9);
+            displayValue = +btnValue;
+            firstOperand = primaryScreen.textContent.slice(0, 9);
             if (secondOperand.length >= 9) {
-                firstOperand = temp;
-                calcStore = displayBoard.textContent.slice(0, 9);
-                displayBoard.textContent = calcStore;
-                isOperatorActive = false;
+                firstOperand = firstOperand_temp;
+                displayValue = primaryScreen.textContent.slice(0, 9);
+                primaryScreen.textContent = displayValue;
+                operatorSelected = false;
             }
-            displayBoard.textContent = calcStore.toString().slice(0, 9);
-            secondOperand = displayBoard.textContent;
+            primaryScreen.textContent = displayValue.toString().slice(0, 9);
+            secondOperand = primaryScreen.textContent;
         } else {
-            calcStore = displayBoard.textContent.slice(0, 9);
+            displayValue = primaryScreen.textContent.slice(0, 9);
         }
     } else {
-        displayBoard.textContent = calcStore.toString().slice(0, 9);
+        primaryScreen.textContent = displayValue.toString().slice(0, 9);
     }
 }
 
 function calculate() {
-    if (operatorVal === '/' && displayBoard.textContent === '0') {
-        displayBoard.textContent = ERROR_MESSAGE;
+    if (mathOperator === '/' && primaryScreen.textContent === '0') {
+        primaryScreen.textContent = ERROR_MESSAGE;
         firstOperand = '';
         return;
-    };
-    if (displayBoard.textContent === ERROR_MESSAGE) {
+    }
+    if (primaryScreen.textContent === ERROR_MESSAGE) {
         clearScreen();
         return
-    };
-    if (firstOperand.length >= 9) { firstOperand = temp };
-    answerVal = roundNumber(operate(operatorVal, firstOperand, secondOperand));
-    if (answerVal.toString().length >= 9) {
-        answerVal = answerVal.toExponential(2);
     }
-    if (answerVal === undefined || secondOperand === '') {
-        displayBoard.textContent = displayBoard.textContent / 1
+    if (firstOperand.length >= 9) { firstOperand = firstOperand_temp };
+    operationAnswer = roundNumber(operate(mathOperator, firstOperand, secondOperand));
+    if (operationAnswer.toString().length >= 9) {
+        operationAnswer = operationAnswer.toExponential(2);
+    }
+    if (operationAnswer === undefined || secondOperand === '') {
+        primaryScreen.textContent = primaryScreen.textContent / 1
     } else {
-        displayBoard.textContent = answerVal;
+        primaryScreen.textContent = operationAnswer;
     }
-    if (displayBoard.textContent == 0) {
+    if (primaryScreen.textContent == 0) {
         firstOperand = '';
     } else {
-        firstOperand = displayBoard.textContent;
+        firstOperand = primaryScreen.textContent;
     }
     secondOperand = '';
-    isOperatorActive = false;
+    operatorSelected = false;
 
 }
 
 function selectOperator(e) {
-    isOperatorActive = true;
+    operatorSelected = true;
     const ERROR_MESSAGE = 'OMG!'
-    if (operatorVal === '/' && displayBoard.textContent === '0') {
-        displayBoard.textContent = ERROR_MESSAGE;
+    if (mathOperator === '/' && primaryScreen.textContent === '0') {
+        primaryScreen.textContent = ERROR_MESSAGE;
         firstOperand = '';
         return;
-    };
-    if (displayBoard.textContent === ERROR_MESSAGE) {
+    }
+    if (primaryScreen.textContent === ERROR_MESSAGE) {
         clearScreen();
         return;
-    };
+    }
     if (firstOperand !== '' && secondOperand !== '') {
-        if (firstOperand.length >= 9) { firstOperand = temp };
-        answerVal = roundNumber(operate(lastOperatorVal, firstOperand, secondOperand));
-        displayBoard.textContent = answerVal;
-        firstOperand = answerVal;
+        if (firstOperand.length >= 9) { firstOperand = firstOperand_temp };
+        operationAnswer = roundNumber(operate(lastMathOperator, firstOperand, secondOperand));
+        primaryScreen.textContent = operationAnswer;
+        firstOperand = operationAnswer;
         secondOperand = '';
     } else {
-        firstOperand = displayBoard.textContent;
+        firstOperand = primaryScreen.textContent;
     }
-    operatorVal = e.target.textContent;
-    lastOperatorVal = operatorVal;
+    mathOperator = e.target.textContent;
+    lastMathOperator = mathOperator;
 }
 
-function deleteLast() {
-    const dLast = displayBoard.textContent;
-    if (dLast === ERROR_MESSAGE) {
+function sliceLast() {
+    if (primaryScreen.textContent === ERROR_MESSAGE) {
         clearScreen();
         return;
     };
-    if (dLast.length <= 1) {
-        if (isOperatorActive) {
+    if (primaryScreen.textContent.length <= 1) {
+        if (operatorSelected) {
             secondOperand = '';
-            calcStore = '0';
+            displayValue = '0';
         } else {
             clearScreen();
-            calcStore = '0';
+            displayValue = '0';
         }
     } else {
-        if (isOperatorActive) {
+        if (operatorSelected) {
             secondOperand = secondOperand.slice(0, -1);
         } else {
             firstOperand = firstOperand.slice(0, -1);
         }
-        calcStore = dLast.slice(0, -1);
+        displayValue = primaryScreen.textContent.slice(0, -1);
     }
-    displayBoard.textContent = calcStore;
+    primaryScreen.textContent = displayValue;
+}
+
+function addPoint(e) {
+    if (operatorSelected) {
+        appendZero(secondOperand);
+        secondOperand += this.textContent;
+        primaryScreen.textContent = secondOperand;
+        displayValue = primaryScreen.textContent;
+    } else {
+        appendZero(primaryScreen.textContent);
+        firstOperand += this.textContent;
+        primaryScreen.textContent = firstOperand;
+        displayValue = primaryScreen.textContent;
+    }
+}
+
+function appendZero(operand) {
+
 }
 
 function roundNumber(num) {
@@ -175,12 +192,13 @@ function roundNumber(num) {
 }
 
 
-equalBtn.addEventListener('click', calculate);
-clearBtn.addEventListener('click', clearScreen);
-deleteBtn.addEventListener('click', deleteLast);
-sNum.forEach(btn => {
+numberBtn.forEach(btn => {
     btn.addEventListener('click', addToScreen);
 });
-optBtn.forEach(btn => {
+operatorBtn.forEach(btn => {
     btn.addEventListener('click', selectOperator)
 });
+equalBtn.addEventListener('click', calculate);
+clearBtn.addEventListener('click', clearScreen);
+deleteBtn.addEventListener('click', sliceLast);
+pointBtn.addEventListener('click', addPoint);
