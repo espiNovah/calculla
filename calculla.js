@@ -170,6 +170,9 @@ function sliceLast() {
 }
 
 function addPoint(e) {
+    if (primaryScreen.textContent.includes('.')) {
+        return;
+    }
     if (operatorSelected) {
         appendZero(secondOperand);
         secondOperand += this.textContent;
