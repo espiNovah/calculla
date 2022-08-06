@@ -211,14 +211,28 @@ function roundNumber(num) {
     return Math.round((num + Number.EPSILON) * 100) / 100;
 }
 
+function activateKeyboard(e) {
+    const key = document.querySelector(`div[data-key='${e.key}']`);
+    if (e.key >= 0 && e.key <= 9) return key.click();
+    else if (e.key == "+") return key.click();
+    else if (e.key == "-") return key.click();
+    else if (e.key == "*") return key.click();
+    else if (e.key == "/") return key.click();
+    else if (e.key == ".") return key.click();
+    else if (e.keyCode == 67) return clearScreen();
+    else if (e.key == "=" || e.code === 'Enter') return calculate();
+    else if (e.code == "Backspace" || e.code == "Delete") return sliceLast();
+    e.preventDefault();
+}
 
 numberBtn.forEach(btn => {
     btn.addEventListener('click', addToScreen);
 });
 operatorBtn.forEach(btn => {
-    btn.addEventListener('click', selectOperator)
+    btn.addEventListener('click', selectOperator);
 });
 equalBtn.addEventListener('click', calculate);
 clearBtn.addEventListener('click', clearScreen);
 deleteBtn.addEventListener('click', sliceLast);
 pointBtn.addEventListener('click', addPoint);
+window.addEventListener('keydown', activateKeyboard)
