@@ -12,6 +12,7 @@ let displayLog = '';
 let displayValue = '';
 let firstOperand = '';
 let secondOperand = '';
+let btnValue = null;
 let mathOperator = null;
 let operationAnswer = null;
 let lastMathOperator = null;
@@ -20,12 +21,14 @@ let firstOperand_temp = null;
 const ERROR_MESSAGE = '🤡'
 
 
-const add = (a, b) => (+a + +b);
+const add = (a, b) => (a + b);
 const divide = (a, b) => (a / b);
 const subtract = (a, b) => (a - b);
 const multiply = (a, b) => (a * b);
 
 function operate(operator, n1, n2) {
+    n1 = +n1;
+    n2 = +n2;
     switch (operator) {
         case '+':
             return add(n1, n2);
@@ -46,6 +49,7 @@ function clearScreen() {
     displayLog = '';
     firstOperand = '';
     secondOperand = '';
+    btnValue = null;
     mathOperator = null;
     operationAnswer = null;
     lastMathOperator = null;
@@ -56,7 +60,7 @@ function clearScreen() {
 }
 
 function addToScreen(e) {
-    const btnValue = this.textContent;
+    btnValue = this.textContent;
     if (primaryScreen.textContent === ERROR_MESSAGE) {
         clearScreen();
         primaryScreen.textContent = '0';
@@ -69,6 +73,36 @@ function addToScreen(e) {
         firstOperand += btnValue;
         displayValue = firstOperand;
     }
+    limitScreenCharacter();
+}
+
+function calculate() {
+    if (mathOperator === '/' && primaryScreen.textContent === '0') {
+        primaryScreen.textContent = ERROR_MESSAGE;
+        firstOperand = '';
+        return;
+    }
+    if (primaryScreen.textContent === ERROR_MESSAGE) {
+        clearScreen();
+        return
+    }
+    reduceAnswerCharacter(mathOperator);
+    if (operationAnswer === undefined || secondOperand === '') {
+        primaryScreen.textContent = primaryScreen.textContent;
+    } else {
+        primaryScreen.textContent = operationAnswer;
+    }
+    if (primaryScreen.textContent == 0) {
+        firstOperand = '';
+    } else {
+        firstOperand = primaryScreen.textContent;
+    }
+    if (primaryScreen.textContent == 'NaN') { primaryScreen.textContent = ERROR_MESSAGE };
+    secondOperand = '';
+    operatorSelected = false;
+}
+
+function limitScreenCharacter() {
     if (primaryScreen.textContent.length >= 9) {
         if (operatorSelected) {
             firstOperand_temp = firstOperand.toString().slice(0, 9);
@@ -90,39 +124,19 @@ function addToScreen(e) {
     }
 }
 
-function calculate() {
-    if (mathOperator === '/' && primaryScreen.textContent === '0') {
-        primaryScreen.textContent = ERROR_MESSAGE;
-        firstOperand = '';
-        return;
-    }
-    if (primaryScreen.textContent === ERROR_MESSAGE) {
-        clearScreen();
-        return
-    }
+function reduceAnswerCharacter(operatorValue) {
     if (firstOperand.length >= 9) { firstOperand = firstOperand_temp };
-    operationAnswer = roundNumber(operate(mathOperator, firstOperand, secondOperand));
-    if (operationAnswer.toString().length >= 9) {
-        operationAnswer = operationAnswer.toExponential(2);
-    }
-    if (operationAnswer === undefined || secondOperand === '') {
-        primaryScreen.textContent = primaryScreen.textContent / 1
-    } else {
-        primaryScreen.textContent = operationAnswer;
-    }
-    if (primaryScreen.textContent == 0) {
-        firstOperand = '';
-    } else {
-        firstOperand = primaryScreen.textContent;
-    }
-    secondOperand = '';
-    operatorSelected = false;
+    operationAnswer = roundNumber(operate(operatorValue, firstOperand, secondOperand));
 
+    if (operationAnswer.toString().length >= 9) {
+        primaryScreen.textContent = operationAnswer.toExponential(2);
+        firstOperand = operationAnswer;
+        secondOperand = '';
+    }
 }
 
 function selectOperator(e) {
     operatorSelected = true;
-    const ERROR_MESSAGE = 'OMG!'
     if (mathOperator === '/' && primaryScreen.textContent === '0') {
         primaryScreen.textContent = ERROR_MESSAGE;
         firstOperand = '';
@@ -133,8 +147,7 @@ function selectOperator(e) {
         return;
     }
     if (firstOperand !== '' && secondOperand !== '') {
-        if (firstOperand.length >= 9) { firstOperand = firstOperand_temp };
-        operationAnswer = roundNumber(operate(lastMathOperator, firstOperand, secondOperand));
+        reduceAnswerCharacter(mathOperator);
         primaryScreen.textContent = operationAnswer;
         firstOperand = operationAnswer;
         secondOperand = '';
