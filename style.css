@@ -20,8 +20,9 @@ body {
     font-size: 20px;
     background-color: #DAEDEC;
 }
+
 .container {
-    margin: auto;
+    margin: 50px auto;
     font-weight: 900;
 }
 
@@ -67,6 +68,7 @@ div .displayScreen {
     color: #DAEDEC;
     height: 90px;
 }
+
 .resetP {
     flex: 1;
     display: flex;
@@ -74,12 +76,14 @@ div .displayScreen {
     align-items: center;
     transition: background-color 0.5s ease-out;
 }
+
 .resetClear {
     background-color: #061214;
     border-radius: 0px 10px 10px 0px;
     margin-right: 4px;
 
 }
+
 .resetDelete {
     background-color: #061214;
     border-radius: 10px 10px 10px 10px;
@@ -91,34 +95,42 @@ div .displayScreen {
     flex-wrap: wrap;
 }
 
-.singleBtn:hover, .operaBtn:hover{
-    cursor: pointer; 
+.singleBtn:hover,
+.operaBtn:hover {
+    cursor: pointer;
     background-color: #DAEDEC;
     color: black;
 }
-.resetDelete:hover{
-    cursor: pointer; 
+
+.resetDelete:hover {
+    cursor: pointer;
     background-color: #ECF87F;
     color: black;
 }
-.resetClear:hover{
-    cursor: pointer; 
+
+.resetClear:hover {
+    cursor: pointer;
     background-color: #FFAEBC;
     color: black;
 }
-.resetP:active, .singleBtn:active, .operaBtn:active{
+
+.resetP:active,
+.singleBtn:active,
+.operaBtn:active {
     filter: brightness(1.2);
 }
 
 .btnNorth {
     display: flex;
 }
+
 .northAlpha {
     flex: 3;
     display: flex;
     flex-direction: column;
 
 }
+
 .northOmega {
     display: flex;
     flex-direction: column;
@@ -148,17 +160,18 @@ div .displayScreen {
     background-color: #061214;
     transition: background-color 0.5s ease-out;
 }
+
 .operaBtn {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     height: 90px;
     width: 90px;
-    border-radius: 10px 0px 0px 10px;
-    margin-bottom: 3px;
     font-size: 30px;
     color: #DAEDEC;
+    margin-bottom: 3px;
     background-color: #244C44;
+    border-radius: 10px 0px 0px 10px;
     transition: background-color 0.5s ease-out;
 }
 
@@ -166,19 +179,32 @@ div .displayScreen {
     margin: 0px;
     border-radius: 20px 0px 15px 0px;
 }
+
 .southOmega {
-    background-color: #279F95;  
+    height: auto;
     color: #DAEDEC;
-    height: auto; 
+    background-color: #279F95;
 }
+
 .southOmega:hover {
-    background-color: #279F95; 
     color: #DAEDEC;
     filter: brightness(1.2);
+    background-color: #279F95;
 }
-.southOmega:active{
-    background-color: #279F95;  
+
+.southOmega:active {
     filter: brightness(1);
+    background-color: #279F95;
+}
+
+.supportNote {
+    width: 25%;
+    padding: 20px;
+    color: #000000;
+    text-align: center;
+    border-radius: 15px;
+    background-color: #FFC0CB;
+
 }
 
 footer {

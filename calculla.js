@@ -213,6 +213,7 @@ function roundNumber(num) {
 
 function activateKeyboard(e) {
     const key = document.querySelector(`div[data-key='${e.key}']`);
+    console.log(e.keyCode);
     if (e.key >= 0 && e.key <= 9) return key.click();
     else if (e.key == "+") return key.click();
     else if (e.key == "-") return key.click();
