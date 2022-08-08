@@ -22,7 +22,8 @@ body {
 }
 
 .container {
-    margin: 50px auto;
+    margin: 100px auto;
+    margin-bottom: 10px;
     font-weight: 900;
 }
 
