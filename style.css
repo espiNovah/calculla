@@ -107,7 +107,6 @@ div .displayScreen {
     background-color: #ECF87F;
     color: black;
 }
-
 .resetClear:hover {
     cursor: pointer;
     background-color: #FFAEBC;
@@ -198,13 +197,45 @@ div .displayScreen {
 }
 
 .supportNote {
-    width: 25%;
     padding: 20px;
     color: #000000;
-    text-align: center;
     border-radius: 15px;
-    background-color: #FFC0CB;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+.kbNote {
+    display: flex;
+    justify-content: space-around;
+}
+.kbKey {
+    width: 250px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    color: #000000;
+    line-height: 25px;
+    background-color: #FBE7C6;
+    padding: 10px 10px 10px 10px;
+    border-radius: 15px 0px 0px 15px;
+  }
+.kbSupport{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 250px;
+    color: #000000;
+    line-height: 25px;
+    background-color: #FBE7C6;
+    padding: 10px 25px 10px 10px;
+    border-radius: 0px 15px 15px 0px;
+  }
 
+.kbEffect {
+    background-color: #DAEDEC;
+    color: black;
 }
 
 footer {

@@ -4,11 +4,9 @@ const numberBtn = document.querySelectorAll('.sNum');
 const clearBtn = document.querySelector('.resetClear');
 const deleteBtn = document.querySelector('.resetDelete');
 const operatorBtn = document.querySelectorAll('.operaBtn');
-const secondaryScreen = document.querySelector('.displayLog');
 const primaryScreen = document.querySelector('.displayBoard');
 
 
-let displayLog = '';
 let displayValue = '';
 let firstOperand = '';
 let secondOperand = '';
@@ -46,7 +44,6 @@ function operate(operator, n1, n2) {
 
 function clearScreen() {
     displayValue = '';
-    displayLog = '';
     firstOperand = '';
     secondOperand = '';
     btnValue = null;
@@ -56,7 +53,6 @@ function clearScreen() {
     firstOperand_temp = null
     operatorSelected = false;
     primaryScreen.textContent = '0';
-    secondaryScreen.textContent = '0';
 }
 
 function addToScreen(e) {
@@ -127,7 +123,6 @@ function limitScreenCharacter() {
 function reduceAnswerCharacter(operatorValue) {
     if (firstOperand.length >= 9) { firstOperand = firstOperand_temp };
     operationAnswer = roundNumber(operate(operatorValue, firstOperand, secondOperand));
-
     if (operationAnswer.toString().length >= 9) {
         primaryScreen.textContent = operationAnswer.toExponential(2);
         firstOperand = operationAnswer;
@@ -143,8 +138,7 @@ function selectOperator(e) {
         return;
     }
     if (primaryScreen.textContent === ERROR_MESSAGE) {
-        clearScreen();
-        return;
+        return clearScreen();
     }
     if (firstOperand !== '' && secondOperand !== '') {
         reduceAnswerCharacter(mathOperator);
@@ -159,10 +153,7 @@ function selectOperator(e) {
 }
 
 function sliceLast() {
-    if (primaryScreen.textContent === ERROR_MESSAGE) {
-        clearScreen();
-        return;
-    };
+    if (primaryScreen.textContent === ERROR_MESSAGE) { return clearScreen() }
     if (primaryScreen.textContent.length <= 1) {
         if (operatorSelected) {
             secondOperand = '';
@@ -173,9 +164,9 @@ function sliceLast() {
         }
     } else {
         if (operatorSelected) {
-            secondOperand = secondOperand.slice(0, -1);
+            secondOperand = displayValue.slice(0, -1);
         } else {
-            firstOperand = firstOperand.slice(0, -1);
+            firstOperand = displayValue.slice(0, -1);
         }
         displayValue = primaryScreen.textContent.slice(0, -1);
     }
@@ -183,19 +174,22 @@ function sliceLast() {
 }
 
 function addPoint(e) {
-    if (primaryScreen.textContent.includes('.')) {
-        return;
-    }
-    if (operatorSelected) {
-        appendZero(secondOperand);
-        secondOperand += this.textContent;
-        primaryScreen.textContent = secondOperand;
-        displayValue = primaryScreen.textContent;
+    if (primaryScreen.textContent.includes('.')) { return }
+    if (primaryScreen.textContent.length >= 9) {
+        displayValue = displayValue.slice(0, 9);
+        primaryScreen.textContent = displayValue.slice(0, 9);
     } else {
-        appendZero(primaryScreen.textContent);
-        firstOperand += this.textContent;
-        primaryScreen.textContent = firstOperand;
-        displayValue = primaryScreen.textContent;
+        if (operatorSelected) {
+            appendZero(secondOperand);
+            secondOperand += '.';
+            primaryScreen.textContent = secondOperand;
+            displayValue = primaryScreen.textContent;
+        } else {
+            appendZero(primaryScreen.textContent);
+            firstOperand += '.';
+            primaryScreen.textContent = firstOperand;
+            displayValue = primaryScreen.textContent;
+        }
     }
 }
 
@@ -213,17 +207,28 @@ function roundNumber(num) {
 
 function activateKeyboard(e) {
     const key = document.querySelector(`div[data-key='${e.key}']`);
-    console.log(e.keyCode);
-    if (e.key >= 0 && e.key <= 9) return key.click();
-    else if (e.key == "+") return key.click();
-    else if (e.key == "-") return key.click();
-    else if (e.key == "*") return key.click();
-    else if (e.key == "/") return key.click();
-    else if (e.key == ".") return key.click();
-    else if (e.keyCode == 67) return clearScreen();
-    else if (e.key == "=" || e.code === 'Enter') return calculate();
-    else if (e.code == "Backspace" || e.code == "Delete") return sliceLast();
-    e.preventDefault();
+    if ((e.code !== 'BackSpace' || e.key !== 'Delete') && (e.key == '' || e.code == 'Space')) { return }
+    if (e.key >= 0 && e.key <= 9) { addKeyboardEffect(limitScreenCharacter, key, key) }
+    else if (e.key == "+") { addKeyboardEffect(limitScreenCharacter, key, key) }
+    else if (e.key == "-") { addKeyboardEffect(limitScreenCharacter, key, key) }
+    else if (e.key == "*") { addKeyboardEffect(limitScreenCharacter, key, key) }
+    else if (e.key == "/") { addKeyboardEffect(limitScreenCharacter, key, key) }
+    else if (e.key == ".") { return addPoint() }
+    else if (e.key == "=" || e.key === 'Enter') { return calculate() }
+    else if (e.keyCode == 67) { return clearScreen() }
+    else if (e.code == "Backspace" || e.key == "Delete") { return sliceLast() }
+}
+
+function addKeyboardEffect(limitChar, fnc, effect) {
+    limitChar();
+    fnc.click();
+    effect.classList.add('kbEffect');
+}
+
+function removeKeyboardEffect(e) {
+    const key = document.querySelector(`div[data-key='${e.key}']`);
+    if (key == null) { return }
+    key.classList.remove('kbEffect');
 }
 
 numberBtn.forEach(btn => {
@@ -237,3 +242,4 @@ clearBtn.addEventListener('click', clearScreen);
 deleteBtn.addEventListener('click', sliceLast);
 pointBtn.addEventListener('click', addPoint);
 window.addEventListener('keydown', activateKeyboard)
+window.addEventListener('keyup', removeKeyboardEffect)
